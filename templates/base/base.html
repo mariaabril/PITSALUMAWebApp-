@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <!--Anadimos el titulo de la pagina-->
+        <title> {% block title %} {% endblock %}</title>
+       
+        <!--Anadimos el encabezado de cada pagina, incluyenfo el logo-->
+        <header style="width: 100%;">
+
+            <img src= "img/LOGO_pitsaluma_fondo_blanco.jpg" alt="PitsaLuma LOGO" height=100px/>
+            {% block header %} {% endblock %}
+        
+        </header> 
+        <br>
+        <!--Anadimos unos links para poder llevar a cabo todos los estilos-->
+
+        <script src="https://d3js.org/d3.v4.js"></script>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>       
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+        <!--Anadimos el bloque de cada html-->
+        {% block head %} {% endblock %}
+
+        <!--Anadimos un link a nuestra pagina de estilos-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}"/>
+    </head>
+
+    <body> 
+        <!--aqui se definen las alertas-->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category,message in messages %}
+                    <div class="{{ category }}" style="width: 100%; font-size: medium; line-height: 30px;"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <main>
+            <!--Anadimos el cuerpo de cada pagina-->
+            {% block content %} {% endblock %}
+        </main>
+        
+        <!--El pie de pagina va a ser el mismo para todas las paginas-->
+        <footer>
+            PitsaLuma &copy; All Rights Reserved
+        </footer>   
+    </body>
+    
+   
+</html>

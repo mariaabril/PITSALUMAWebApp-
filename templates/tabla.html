@@ -1,0 +1,34 @@
+<!--En este html definimos la tabla de los vuelos con su cabecera y el cuerpo.
+Recorreremos los vuelos que se le han pasado desde el main.py-->
+<table border="2" id="tabla_vuelos" width=100%>
+    {% for titulo in primera_fila %}
+    <thead>
+        <tr>
+            <th id="id_tabla">#</th>
+            <th> {{ titulo.ID }} </th>
+            <th> {{ titulo.Fecha }} </th>
+            <th> {{ titulo.HoraS }} </th>
+            <th> {{ titulo.HoraL }} </th>
+            <th> {{ titulo.Origen }} </th>
+            <th> {{ titulo.Destino }} </th>
+            <th> {{ titulo.RetrasoS }} </th>
+            <th> {{ titulo.RetrasoL }} </th>
+        </tr>
+    </thead>
+    {% endfor %}
+
+    {% for vuelo in vuelos %}
+        <tr>
+            <td class="centrar negrita">{{ loop.index  }}</td><!-- + (page - 1) * per_page }}</td>-->
+            <td> {{ vuelo.ID }} </td>
+            <td class="centrar"> {{ vuelo.Fecha }} </td>
+            <td class="centrar"> {{ vuelo.HoraS }} </td>
+            <td class="centrar"> {{ vuelo.HoraL }} </td>
+            <td> {{ vuelo.Origen }} </td>
+            <td> {{ vuelo.Destino }} </td>
+            <td class="centrar negrita"> {{ vuelo.RetrasoS }} mins </td>
+            <td class="centrar negrita"> {{ vuelo.RetrasoL }} mins </td>
+        </tr>
+    {% endfor %}
+    
+</table>

@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}    
+    {% from '_macro.html' import render_filter %}
+        <!--Aqui seguimos los pasos para registrar un nuevo usuario a la base de datos, el render_filter contiene tanto el titulo como el input-->
+        <div id="div_sesion">
+            <h2>Registrarse</h2>
+            <form name="sentName"  id="login" method="POST">
+                <div style="width: 200%; text-align: center;">
+                    <dd class="session_email">{{ render_filter(form.email) }}</dd> 
+                </div>
+                <br>
+                <div style="width: 200%; text-align: center;">
+                    <dd class="session_passw">{{ render_filter(form.password) }}</dd>
+                </div>
+                <br>
+                <br>
+                <button type="submit" id="entrar" class="btn btn-primary">Entrar</button>
+            </form>    
+            <br>
+            <a href="login">¿Ya te acuerdas? Pulsa aquí para iniciar sesión</a> <br>
+        </div>
+{% endblock %}

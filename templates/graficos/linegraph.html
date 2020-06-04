@@ -1,0 +1,134 @@
+<div id="linegraph"></div>
+<script>  
+    //ponemos el formato de fecha que necesitamos
+    var parseDate = d3.timeParse("%Y-%m-%d");
+
+    //cambiamos las dimensiones del grafico
+    var margin2 = {top: 10, right: 35, bottom: 65, left: 45},
+      width2 = 500 - margin2.left - margin2.right,
+      height2 = 570 - margin2.top - margin2.bottom;
+
+    //introducimos el grafico a la pagina
+    var svg2 = d3.select("#linegraph")
+      .append("svg")
+        .attr("width", width2 + margin2.left + margin2.right)
+        .attr("height", height2 + margin2.top + margin2.bottom)
+      .append("g")
+        .attr("transform",
+              "translate(" + margin2.left + "," + margin2.top + ")");
+
+    //leemos los datos
+    d3.csv('templates/graficos/fichero_graficos.csv?' + Date.now(), function(d){
+        return { date : parseDate(d.Fecha), value :Number(d.RetrasoL)}
+      },
+      function(data) {
+
+        //anadimos eje x (fecha)
+        var x = d3.scaleTime()
+          .domain(d3.extent(data, function(d) { return d.date; }))
+          .range([ 0, width2 ]);
+        xAxis = svg2.append("g")
+          .attr("transform", "translate(0," + height2 + ")")
+          .call(d3.axisBottom(x));
+
+        //eje y 
+        var y = d3.scaleLinear()
+          .domain([d3.min(data, function(d) { return +d.value - 2; }), d3.max(data, function(d) { return +d.value + 2; })])
+          .range([ height2, 0 ]);
+        yAxis = svg2.append("g")
+          .call(d3.axisLeft(y));
+
+        //dibujamos clickpath que es lo que hara el zoom
+        var clip = svg2.append("defs").append("svg2:clipPath")
+            .attr("id", "clip")
+            .append("svg2:rect")
+            .attr("width", width2 )
+            .attr("height", height2 )
+            .attr("x", 0)
+            .attr("y", 0);
+
+        //anadimos brushing
+        var brush = d3.brushX()                   
+            .extent( [ [0,0], [width2,height2] ] )  
+            .on("end", updateChart)               
+
+        //creamos la variable que dibujara la linea
+        var line = svg2.append('g')
+          .attr("clip-path", "url(#clip)")
+
+        //anadimos la linea
+        line.append("path")
+          .datum(data)
+          .attr("class", "line") 
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5)
+          .attr("d", d3.line()
+            .x(function(d) { return x(d.date) })
+            .y(function(d) { return y(d.value) })
+            )
+
+        line
+          .append("g")
+            .attr("class", "brush")
+            .call(brush);
+
+        //titulo de los ejes
+        svg2.append("text")   
+            .attr("x", width2 / 2)
+            .attr("y",  height2 + 35)
+            .style("text-anchor", "middle")
+            .text("Fecha");
+      
+        svg2.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - (margin2.left))
+            .attr("x", 0 - (height2 / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Retraso de llegada (minutos)");
+
+        var idleTimeout
+        function idled() { idleTimeout = null; }
+
+        //funcion que actualiza el grafico
+        function updateChart() {
+
+          //nuevo perimetro
+          extent = d3.event.selection
+
+          //si no hay seleccion volvemos a las coordenadas inicialesm si no, actualizamos el dominio
+          if(!extent){
+            if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); 
+            x.domain([ 4,8])
+          }else{
+            x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
+            line.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+          }
+
+          //actualizamos eje y linea
+          xAxis.transition().duration(1000).call(d3.axisBottom(x))
+          line
+              .select('.line')
+              .transition()
+              .duration(1000)
+              .attr("d", d3.line()
+                .x(function(d) { return x(d.date) })
+                .y(function(d) { return y(d.value) })
+              )
+        }
+
+        //con el doble click volvemos al principio
+        svg2.on("dblclick",function(){
+          x.domain(d3.extent(data, function(d) { return d.date; }))
+          xAxis.transition().call(d3.axisBottom(x))
+          line
+            .select('.line')
+            .transition()
+            .attr("d", d3.line()
+              .x(function(d) { return x(d.date) })
+              .y(function(d) { return y(d.value) })
+          )
+        });
+    })
+</script>

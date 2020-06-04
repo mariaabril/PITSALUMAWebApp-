@@ -1,0 +1,38 @@
+{% from '_macro.html' import render_filter %}
+
+<br>
+<br>
+<!--Panel de filtros que se puede colapsar, recogemos los filtros que obtenemos del formulario de filtros-->
+<button type="button" data-toggle="collapse" data-target="#filtros_collapsibles" class="collapsible" id="boton_filtros"><i class="fas fa-filter" style="font-size:15px;"></i></button>
+    
+<form name="sentMessage" id="filtros_collapsibles" method="POST" class="form-collapse collapse">
+    <h4>Filtros de la tabla</h4>
+    <div id="conjunto_filtros">
+        <div>
+            {{ render_filter(form.fecha_inicio) }}
+        </div>
+
+        <div>
+            {{ render_filter(form.fecha_fin) }}
+        </div>
+        <div>
+        {{ render_filter(form.identificador_vuelo) }}
+        </div>
+
+        <div>
+            {{ render_filter(form.origen) }}
+        </div>
+
+        <div>
+            {{ render_filter(form.destino) }} 
+        </div>
+
+        <div>
+            {{ render_filter(form.num_vuelos) }} <dd id="numero"></dd>    
+        </div>
+                
+    <br>
+    <br>
+        <button type="submit" id="buscar">Buscar</button>            
+    </div>
+</form> 

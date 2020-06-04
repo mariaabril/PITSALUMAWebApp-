@@ -1,0 +1,12 @@
+{% macro render_filter(field) %}
+    <td> {{ field.label }}
+    <dd> {{ field(**kwargs)|safe }}
+
+    {% if field.errors %}
+        <ul>
+            {% for error in field.errors %}
+                <dd id="email_error"> {{ error }}</dd>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}

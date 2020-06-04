@@ -1,0 +1,31 @@
+,ID,Fecha,HoraS,HoraL,Origen,Destino,RetrasoS,RetrasoL
+0,4122,13/1/2019,13:00,14:20,"Richmond, VA","Chicago, IL",45,14
+1,6178,16/1/2019,18:45,22:31,"Houston, TX","Richmond, VA",47,16
+2,5316,22/1/2019,16:10,17:22,"Charlotte, NC","Richmond, VA",46,16
+3,1735,23/1/2019,17:50,20:15,"Richmond, VA","Fort Lauderdale, FL",45,15
+4,3355,9/2/2019,20:25,22:17,"Detroit, MI","Richmond, VA",46,15
+5,6007,19/2/2019,11:00,11:47,"Richmond, VA","Washington, DC",45,15
+6,1370,2/3/2019,14:40,16:42,"Richmond, VA","Atlanta, GA",45,15
+7,3823,8/3/2019,10:55,12:20,"Richmond, VA","New York, NY",48,17
+8,7427,11/3/2019,11:31,12:50,"Detroit, MI","Ithaca/Cortland, NY",55,25
+9,4716,13/3/2019,20:20,22:00,"Detroit, MI","Richmond, VA",48,17
+10,970,14/3/2019,08:33,10:26,"Orlando, FL","Richmond, VA",48,17
+11,5653,15/3/2019,13:01,14:20,"Watertown, NY","Philadelphia, PA",45,15
+12,5665,15/3/2019,14:30,15:41,"Wilmington, NC","Charlotte, NC",44,13
+13,5653,16/3/2019,10:30,11:54,"Philadelphia, PA","Watertown, NY",45,15
+14,5653,17/3/2019,13:01,14:20,"Watertown, NY","Philadelphia, PA",45,15
+15,7390,17/3/2019,22:20,23:42,"Detroit, MI","Ithaca/Cortland, NY",59,29
+16,917,17/3/2019,17:13,17:51,"Richmond, VA","Nashville, TN",46,15
+17,5163,18/3/2019,18:19,19:42,"Philadelphia, PA","Watertown, NY",45,15
+18,4080,20/3/2019,10:30,12:04,"Newark, NJ","Richmond, VA",45,15
+19,3943,20/3/2019,13:09,14:55,"New York, NY","Wilmington, NC",44,13
+20,5163,20/3/2019,18:19,19:42,"Philadelphia, PA","Watertown, NY",45,15
+21,5653,21/3/2019,13:01,14:20,"Watertown, NY","Philadelphia, PA",45,14
+22,5665,21/3/2019,14:30,15:41,"Wilmington, NC","Charlotte, NC",44,13
+23,5653,22/3/2019,10:30,11:54,"Philadelphia, PA","Watertown, NY",45,15
+24,5653,22/3/2019,13:01,14:20,"Watertown, NY","Philadelphia, PA",45,15
+25,3966,23/3/2019,06:35,09:35,"Islip, NY","Fort Lauderdale, FL",44,12
+26,5164,24/3/2019,06:05,07:30,"Watertown, NY","Philadelphia, PA",45,15
+27,5653,24/3/2019,13:01,14:20,"Watertown, NY","Philadelphia, PA",45,15
+28,2334,25/3/2019,06:40,09:25,"Islip, NY","Orlando, FL",44,13
+29,5653,26/3/2019,10:30,11:54,"Philadelphia, PA","Watertown, NY",45,15

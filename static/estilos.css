@@ -1,0 +1,310 @@
+/* Pagina general */
+*{
+    margin: 0px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 0.5%;
+}
+body{
+    background:white;
+    font-family: Arial, Helvetica, sans-serif;
+    
+} 
+main{
+    min-height: calc(93.5vh - 112px - 20px);
+}
+footer{
+    color:blue;
+    text-align: center;
+    width: 100%;
+    bottom: 1px;                
+}
+p{
+    text-align: center;
+    font-size: large;
+}
+div{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px; 
+    padding-right: 5px;
+    width: 30%;
+    text-align: center;
+    display: inline-block;
+}
+div[role="alert"]{
+    width: 100%;
+}
+
+h2{
+    font-weight: bold;
+}
+h4{
+    font-weight: bold;
+}
+
+/* Botones */
+button{
+    background-color: rgb(76, 149, 223);
+    border: 2px solid rgb(46, 112, 179);
+    text-align: center;
+    font-size: 16px;
+    border-radius: 8px;
+    transition-duration: 0.5s;
+    color: whitesmoke;
+}
+button:hover {
+    background-color:rgb(152, 189, 226);
+    color: black;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+/*------------------------PAG LOADING------------------------------*/
+#loading_plane{
+    height: 30%;
+}
+#loading_plane_div{
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+/*------------------------PAG VUELOS------------------------------*/
+
+.dropdown-menu{
+    left: auto !important;
+    right: 0 !important;
+}
+
+/*tabs*/
+li[role="presentation"]{
+    padding: 1%;
+}
+/* Tabla */
+table{
+    border-collapse: collapse;
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+th{
+}
+td{
+    border: 1px solid #ccc9c9;
+    text-align: left;
+    padding: 8px;
+} 
+tr:nth-child(even) {
+    background-color: whitesmoke;
+}
+#tabla_vuelos_wrapper{
+    width: 100%;
+}
+#tabla_vuelos{
+    padding: 0px;
+}
+.centrar{
+    text-align: center;
+}
+.centrar.negrita{
+    font-weight: bold;
+    font-size: medium;
+}
+
+/*sorting*/
+
+table.dataTable.no-footer {
+    border: 3px solid rgb(65, 63, 63);
+}
+table.dataTable thead th {
+	position: sticky;
+    background-image: none !important;
+    background: rgb(194, 186, 186);
+    color: black;
+    font-size: large;
+    border: 3px solid rgb(65, 63, 63);
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);    
+    text-align: center;
+    padding: 4px;
+}
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+    font-family: "Font Awesome 5 Free"; 
+	position: absolute;
+	display: block;
+    top: 35%;
+}
+table.dataTable thead th.sorting:after {
+    font-family: "Font Awesome 5 Free"; 
+	content: "\f0dc";
+	color: #ddd;
+	font-size: 0.8em;
+	padding-top: 0.12em;
+    top: 35%;
+    right: 6%;
+}
+table.dataTable thead th.sorting_asc:after {
+    font-family: "Font Awesome 5 Free"; 
+	content: "\f0de";
+    top: 35%;
+    right: 6%;
+}
+table.dataTable thead th.sorting_desc:after {
+    font-family: "Font Awesome 5 Free"; 
+	content: "\f0dd";
+    top: 35%;
+    right: 6%;
+}   
+#id_tabla.sorting_asc, #id_tabla.sorting, #id_tabla.sorting_desc{
+    width: 5%;
+    padding-right: 12px;
+}
+th.sorting_asc, th.sorting, th.sorting_desc{
+    padding-right: 12px;
+}
+
+/* Panel de filtros */
+#conjunto_filtros{
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+}
+#boton_filtros{
+    padding: 7px ;
+    width: 45px;
+    height: 40px;
+    line-height: 3px;
+    margin: 5px;
+}
+#buscar{
+    padding: 10px;
+    width: 90px;
+    height: 40px;
+    line-height: 3px;
+}
+#identificador_vuelo, #num_vuelos{
+    width: 80px;
+}
+input{
+    width: 130px;
+    text-align: center;
+}
+.centrar{
+    text-align: center;
+}
+.centrar.negrita{
+    font-weight: bold;
+    font-size: medium;
+}
+#download { 
+    border-collapse: collapse;
+    width: 30%;
+    position: relative;
+    text-align: center;
+    font-size: 18px;
+    float: right;
+}
+#fecha_inicio, #fecha_fin{
+    width: 75%;
+}
+#origin_autocomplete, #dest_autocomplete{
+    width: 75%;
+}
+
+/*------------------------PAG SESIONES------------------------------*/
+#login{
+    text-align: center;
+    width: 50%;
+    height: 50%;
+    font-size: medium;
+    justify-content: center;
+    border: 2px solid rgb(167, 163, 163);
+    margin-left: 25%; 
+    padding-right: 25%;
+    padding-top: 5%;
+}
+#entrar{
+    margin-left: 90%;
+}
+#div_sesion {
+    width: 100%;    
+}
+.session_email{
+    width: 38%;
+    text-align: center;
+}
+.session_passw{
+    width: 44%;
+    text-align: center;
+}
+#email, #password{
+    width: 70%;
+}
+#email_error{
+    width: 400px;
+    font-weight: bold;
+    color: rgb(226, 73, 73);
+}
+
+/*------------------------GRAFICOS------------------------------*/
+#wdev{
+    width: 100%;
+    height: 100%;
+}
+#grafico_scatter{
+    float: left;
+    width: 50%;
+    height: 20%;
+}
+#scatterplot{
+    width: 100%;    
+    height: 100%;
+}
+#grafico_linea{
+    display: inline-block;
+    width: 50%;
+    height: 20%;
+    padding-right: 20px;
+}
+#linegraph{
+    width: 100%;
+    height: 100%;
+}
+#grafico_two_lineas{
+    display: inline-block;
+    width: 20%;
+    height: 20%;
+    margin-left: -20%;
+}
+#twolines{
+    width: 100%;    
+    height: 100%;
+}
+#grafico_categories{   
+    float: left;
+    width: 84%;
+    height: 20%;
+    margin-left: -6%;
+}
+#categories{
+    width: 100%;
+    height: 100%;
+}
+
+#legend {
+    width: 43%;
+    height: 68px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+#leyenda{
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}

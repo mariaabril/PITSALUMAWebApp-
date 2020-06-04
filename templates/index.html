@@ -1,0 +1,124 @@
+{% extends 'base/base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block header %} 
+    <!--En el header vamos a introducir el panel del usuario donde pueda cerrar sesion o eliminar la cuenta-->
+    <div class="btn-group" style="float: right; width: 70px; position: relative;">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="width: 100%; text-align: center; position: relative;">
+                <i class="far fa-user"></i>    <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" style="text-align: left;">
+            <li><a href="/logout">Cerrar sesión     <i class="fas fa-sign-out-alt"></i></a></li>
+            <li class="divider"></li>
+            <li><a href="/delete" style="color: red;">Eliminar la cuenta</a></li>
+        </ul>
+    </div>
+
+{% endblock %}
+
+
+{% block content %}    
+    <!--Introducimos el menu de los filtros-->
+    {% include 'filterform.html' %}
+    <!--Creamos un panel que tendra tanto la pestana de la tabla como la de analytics, podremos descargar el csv con los vuelos que contiene la tabla-->
+    <div role="tabpanel" style="width: 100%;"> 
+        <ul class="nav nav-tabs" role="tablist" style="height: 0%; justify-content: center;">
+            <li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab" style="width: 110%; height: 10%;"><h3 style="font-weight: bold;">Tabla de vuelos</h3></a></li>
+            <li role="presentation" ><a href="#wdev" aria-controls="wdev" role="tab" data-toggle="tab" style="width: 110%;"><h3 style="font-weight: bold;">Analytics</h3></a></li>
+            <a href="/templates/graficos/tabla.csv" download="Tabla_vuelos_retrasados.csv"><button id="download"><i class="fa fa-download"></i>  Descargar como csv</button></a>
+        </ul>
+        
+        
+        <div class="tab-content" style="width: 100%;">
+            <!--Panel de la tabla, al principio sera la activa-->
+            <div role="tabpanel" class="tab-pane fade in active" id="basics" style="width: 100%;">
+                {% if vuelos != [] %}
+                    {% include 'tabla.html' %}
+                {% endif %}
+                
+            </div>
+            <!--Panel de analytics-->
+            <div role="tabpanel" class="tab-pane fade" id="wdev">
+                <br>
+                {% if vuelos != [] %}
+                    <div id="grafico_scatter">
+                        <p>Si pasas por encima de un punto, especificará ambos retrasos. <br> caja representa el valor máximo del eje x, ¡cambia el valor a ver que pasa!</p>
+                        <br>
+                        <br>
+                        {% include 'graficos/scatterplot.html' %}
+                    </div>
+                    
+                    <div id="grafico_linea">
+                        <p>Puedes seleccionar un área dentro del gráfico para ampliar la zona. Si quieres volver al principio haz doble click en el gráfico</p>
+                        <br>
+                        {% include 'graficos/linegraph.html' %}
+                    </div>
+                    <br>
+                    
+                    <div id="grafico_categories">  
+                        <br>
+                        <div id="legend"><svg id="leyenda" height=60% ></svg></div>
+                        {% include 'graficos/categories.html' %}
+                    </div>
+                    <div id="grafico_two_lineas">
+                        <br>
+                        <br>
+                        {% include 'graficos/2lines.html' %}
+                    </div>
+                
+                {% endif %}
+            </div>
+        </div>
+        
+    </div>
+    
+
+    <br>
+    <!--Si la lista de vuelos esta vacia mostramos un avion tachado indicando que no hay vuelos disponbles-->
+    {% if vuelos == [] %}
+        <p><i class="fas fa-plane-slash" style="font-size:30px;"></i></p>
+    {% endif %}
+
+    <script type="text/javascript">
+        //ambas funciones de autocompletar sirven para mostrar las ciudades de origen y destino de los filtros
+        $(function() {
+            $("#origin_autocomplete").autocomplete({
+                source: function(request, response) {
+                    $.getJSON("{{url_for('autocomplete')}}",{
+                        q: request.term, 
+                    }, function(data) {
+                        response(data.matching_results); 
+                    });
+                },
+                minLength: 1
+            });
+        });
+
+        $(function() {
+            $("#dest_autocomplete").autocomplete({
+                source: function(request, response) {
+                    $.getJSON("{{url_for('autocomplete')}}",{
+                        q: request.term,
+                    }, function(data) {
+                        response(data.matching_results); 
+                    });
+                },
+                minLength: 1
+            });
+        });
+
+        //esta funcion determinara el orden y la paginacion de la tabla de vuelos
+        $(document).ready(function () {
+            $('#tabla_vuelos').DataTable({
+            "ordering": true, 
+            "searching": false, //no queremos que muestre la opcion para buscar dentro de la tabla
+            "paging": false,
+            "info": false, 
+            "bSort": true
+            });
+            $('.dataTables_length').addClass('bs-select');
+            });
+    </script>
+    
+{% endblock %}

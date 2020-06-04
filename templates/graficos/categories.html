@@ -1,0 +1,91 @@
+<div id="categories"></div>
+<script>
+    //cambiamos las dimensiones del grafico
+    var margin4 = {top: 10, right: 80, bottom: 60, left: 150},
+        width4 = 700 - margin4.left - margin4.right,
+        height4 = 500 - margin4.top - margin4.bottom;
+    
+    //introducimos el grafico a la pagina
+    var svg4 = d3.select("#categories")
+      .append("svg")
+        .attr("width", width4 + margin4.left + margin4.right)
+        .attr("height", height4 + margin4.top + margin4.bottom)
+      .append("g")
+        .attr("transform",
+              "translate(" + margin4.left + "," + margin4.top + ")");
+    
+    //leemos los datos
+    d3.csv('templates/graficos/fichero_ciudad_retrasos.csv?' + Date.now(), function(data) {
+    
+      //eje x
+      var x = d3.scaleLinear()
+        .domain([d3.min(data, function(d) { return +d.RetrasoL -5; }), d3.max(data, function(d) { return +d.RetrasoS + 10; })])
+        .range([ 0, width4]); 
+      svg4.append("g")
+        .attr("transform", "translate(0," + height4 + ")")
+        .call(d3.axisBottom(x))
+    
+      //eje y 
+      var y = d3.scaleBand()
+        .range([ 0, height4 ])
+        .domain(data.map(function(d) { return d.Origen; }))
+        .padding(1);
+      svg4.append("g")
+        .call(d3.axisLeft(y))
+    
+      //anadimos las lineas
+      svg4.selectAll("myline")
+        .data(data)
+        .enter()
+        .append("line")
+          .attr("x1", function(d) { return x(d.RetrasoS); })
+          .attr("x2", function(d) { return x(d.RetrasoL); })
+          .attr("y1", function(d) { return y(d.Origen); })
+          .attr("y2", function(d) { return y(d.Origen); })
+          .attr("stroke", "grey")
+          .attr("stroke-width", "1px")
+    
+      //anadimos los circulos del retraso de salida
+      svg4.selectAll("mycircle")
+        .data(data)
+        .enter()
+        .append("circle")
+          .attr("cx", function(d) { return x(d.RetrasoS); })
+          .attr("cy", function(d) { return y(d.Origen); })
+          .attr("r", "6")
+          .style("fill", "#69b3a2")
+    
+      //anadimos los circulos del retraso de llegada
+      svg4.selectAll("mycircle")
+        .data(data)
+        .enter()
+        .append("circle")
+          .attr("cx", function(d) { return x(d.RetrasoL); })
+          .attr("cy", function(d) { return y(d.Origen); })
+          .attr("r", "6")
+          .style("fill", "#FF9896FF")
+    
+      //titulos de los ejes
+      svg4.append("text")  
+          .attr("x", width4 / 2)
+          .attr("y",  height4 + 35)
+          .style("text-anchor", "middle")
+          .text("Retraso (minutos)");
+
+      svg4.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 0 - (margin4.left))
+          .attr("x", 0 - (height4 / 2))
+          .attr("dy", "1em")
+          .style("text-anchor", "middle")
+          .text("Ciudad de ORIGEN");
+    
+      //anadimos la leyenda en un svg a parte 
+      var svg5 = d3.select("#leyenda")
+      svg5.append("circle").attr("cx",10).attr("cy",10).attr("r", 6).style("fill", "#FF9896FF")
+      svg5.append("circle").attr("cx",10).attr("cy",40).attr("r", 6).style("fill", "#69b3a2")
+      svg5.append("text").attr("x", 30).attr("y", 11).text("Retraso de llegada").style("font-size", "15px").attr("alignment-baseline","middle")
+      svg5.append("text").attr("x", 30).attr("y", 40).text("Retraso de salida").style("font-size", "15px").attr("alignment-baseline","middle")
+    })
+    
+</script>

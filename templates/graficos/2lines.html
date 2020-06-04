@@ -1,0 +1,66 @@
+<div id="twolines"></div>
+<script>
+  
+    //cambiamos las dimensiones del grafico
+    var margin3 = {top: 20, right: 100, bottom: 10, left: 0},
+          width3 = 300 - margin3.left - margin3.right,
+          height3 = 500 - margin3.top - margin3.bottom;
+    
+   
+    //introducimos el grafico a la pagina
+    var svg3 = d3.select("#twolines")
+    .append("svg")
+      .attr("width", "100%")
+      .attr("height", height3 + margin3.top + margin3.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin3.left + "," + margin3.top + ")"); 
+    
+    //leemos los datos
+    d3.csv('templates/graficos/fichero_graficos.csv?' + Date.now(), function(data) {
+      //extraemos la lista de columnas que queremos, en este caso queremos todas menos la fecha
+      dimensions = d3.keys(data[0]).filter(function(d) { return d != 'Fecha'})
+      
+      //para cada columna generamos una escala
+      var y = {}
+      for (i in dimensions) {
+        name = dimensions[i]
+        y[name] = d3.scaleLinear()
+          .domain( d3.extent(data, function(d) { return +d[name]; }) )
+          .range([height3, 0])
+      }
+    
+      x = d3.scalePoint()
+        .range([0, width3])
+        .padding(1)
+        .domain(dimensions);
+    
+      //recorre el csv y cada fila es el input que se convierte en output comolas cooordenadas de la linea a dibujar
+      function path(d) {
+          return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+      }
+    
+      //dibujamos las lineas
+      svg3
+        .selectAll("myPath")
+        .data(data)
+        .enter().append("path")
+        .attr("d",  path)
+        .style("fill", "none")
+        .style("stroke", "#69b3a2")
+        .style("opacity", 0.5)
+    
+      //dibujamos los ejes
+      svg3.selectAll("myAxis")
+        .data(dimensions).enter()
+        .append("g")
+        .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+        .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
+        //anadimos los titulos de los ejes
+        .append("text")
+          .style("text-anchor", "middle")
+          .attr("y", -9)
+          .text(function(d) { return d; })
+          .style("fill", "black")
+    })
+</script>

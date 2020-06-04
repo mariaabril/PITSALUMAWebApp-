@@ -1,0 +1,121 @@
+<!--Boton para cambiar el valor del eje x-->
+<input type="number" id="buttonXlim" value=100>
+<br>        
+<div id="scatterplot"></div>
+<script>
+    var formatDecimalComma = d3.format(",.2f");
+
+    //cambiamos las dimensiones del grafico
+    var margin = {top: 10, right: 40, bottom: 60, left: 50},
+      width = 460 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+    
+    //introducimos el grafico a la pagina
+    var svg = d3.select("#scatterplot")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    //leemos los datos
+    d3.csv('templates/graficos/fichero_graficos.csv?' + Date.now(), function(data) {
+    
+      //eje x, queremos que varie entre el valor minimo y maximo del retraso de llegada
+      var x = d3.scaleLinear()
+        .domain([d3.min(data, function(d) { return +d.RetrasoL - 5; }),d3.max(data, function(d) { return +d.RetrasoL + 5; })])
+        .range([ 0, width ]);
+      var xAxis = svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+    
+      //eje y, queremos que varie entre el valor minimo y maximo del retraso de salida
+      var y = d3.scaleLinear()
+        .domain([d3.min(data, function(d) { return +d.RetrasoS - 5; }), d3.max(data, function(d) { return +d.RetrasoS + 5; })])
+        .range([ height, 0]);
+      svg.append("g")
+        .call(d3.axisLeft(y));
+    
+      var tooltip = d3.select("#scatterplot")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+        .style("padding", "10px")
+
+      //titulo de los ejes x e y 
+      svg.append("text")   
+        .attr("x", width / 2)
+        .attr("y",  height + 35)
+        .style("text-anchor", "middle")
+        .text("Retraso de llegada (minutos)");
+
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - (margin.left))
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("Retraso de salida (minutos)");
+
+      //cuando el raton pase por un punto, la opaciodad de la caja sera 1
+      var mouseover = function(d) {
+        tooltip
+          .style("opacity", 1)
+      }
+      //creamos una caja que cuando pases el raton por encima de un punto mostrara ambos retrasos
+      var mousemove = function(d) {
+        tooltip
+          .html("Retraso de salida: " + d.RetrasoS + ' minutos Retraso de llegada: '+ d.RetrasoL +' minutos')
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY) + "px")
+          .style("width", "200px")
+      }
+    
+      //cuando el raton se aleje del punto, la opacidad sera 0
+      var mouseleave = function(d) {
+        tooltip
+          .transition()
+          .duration(200)
+          .style("opacity", 0)
+      }
+    
+      //anadimos los puntos 
+      svg.append('g')
+        .selectAll("dot")
+        .data(data)
+        .enter()
+        .append("circle")
+          .attr("cx", function (d) { return x(d.RetrasoL); } )
+          .attr("cy", function (d) { return y(d.RetrasoS); } )
+          .attr("r", 5)
+          .style("fill", "#69b3a2" )
+        .on("mouseover", mouseover )
+        .on("mousemove", mousemove )
+        .on("mouseleave", mouseleave )
+    
+    
+      //funcion para actualizar el grafico si se ha cambiado el eje x
+      function updatePlot() {
+        //obtenemos el nuevo valor del eje
+        xlim = this.value
+    
+        //actualizamos el eje
+        x.domain([d3.min(data, function(d) { return +d.RetrasoL - 5; }), xlim])
+        xAxis.transition().duration(1000).call(d3.axisBottom(x))
+    
+        //actualizamos el  grafico
+        svg.selectAll("circle")
+            .data(data)
+            .transition()
+            .duration(1000)
+            .attr("cx", function (d) { return x(d.RetrasoL); } )
+            .attr("cy", function (d) { return y(d.RetrasoS); } )
+      }
+      //anadimos el boton
+      d3.select("#buttonXlim").on("input", updatePlot )
+    })
+</script>

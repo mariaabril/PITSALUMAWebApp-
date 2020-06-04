@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block header %} 
+
+{% endblock %}
+{% block content %}  
+    <!--La pagina contiene el gif del avion-->  
+    <div id="loading_plane_div"><img src="img/loading.gif" alt="Loading..." id="loading_plane"> </div>
+    <!--Funcion que redigira desde la pagina de loading hasta la de vuelos una vez se hayan terminado de cargar las predicciones-->
+    <script type="text/javascript">
+        var counter = 0;
+        window.setInterval(function(){
+          $.getJSON('/hasfinishedloading?counter=' + counter,
+                    function(data) {
+                      if (data.result == true)
+                        window.location.replace('/vuelos');
+                });
+          counter++;
+      }, 1000)
+    </script>
+
+{% endblock %}
